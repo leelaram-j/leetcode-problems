@@ -1,0 +1,39 @@
+Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+
+class Solution {
+    public int search(int[] nums, int target) {
+        int mid, left = 0, right = nums.length - 1;
+        while(left <= right) {
+            mid = left + (right-left) / 2;
+            if(nums[mid] == target)
+                return mid;
+            if(target < nums[mid])
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return -1;
+    }
+}
+
+
+why are we using mid = left + (right-left) /2 instead of (left+right)/2
+
+this is done to prevent overflow..
+
+we need to check if the above condition meets the below checks
+	|| Does not exceed the max integer value.
+
+	|| Also that the value isn't negative
+
+left, right >= 0 and right is always greater than or equal to left for all cases for the given input array. Thus we can safely say that, (right-left) >= 0 for all values of right and left. Therefore it is safe to say (right - left)/2 in equation left + (right - left)/2 cannot be negative, and hence the optimized equation left + (right - left)/2 cannot be negative. Therefore we have taken care of the lower bound (second condition).
+
+
+Now coming to the second condition, for the given input array, by definition (left,right) <= MAX_INT value. So (right - left) will result in a value smaller than MAX_INT always. And therefore, (right - left)/2 is also smaller than MAX_INT. Mathematically, if you add left to this value i.e. left + (right - left)/2, it can't exceed MAX_INT. So the new equation satisfies the first condition as well.
+
+
+Therefore the equation mid = left + (right-left)/2 doesn't result in an overflow.
+
